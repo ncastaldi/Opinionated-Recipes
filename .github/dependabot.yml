@@ -1,9 +1,7 @@
 version: 2
 
 updates:
-  # GitHub Actions — keeps the actions pinned in .github/workflows/ current.
-  # skills-ci.yml is the template's own workflow; init-project adds the
-  # scaffolded project's ci.yml alongside it.
+  # GitHub Actions pinned in .github/workflows/ (ci.yml and skills-ci.yml).
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
@@ -13,9 +11,48 @@ updates:
       - "dependencies"
       - "github-actions"
 
-  # The template's own lint/test tooling, pinned in requirements-dev.txt. This
-  # is not the scaffolded project's stack — it exists so a ruff or pytest bump
-  # arrives as a reviewable PR rather than silently changing what CI enforces.
+  # The pnpm workspace: one lockfile at the root covers every app and package.
+  # Minor and patch bumps arrive as one grouped PR; majors stay separate so
+  # each gets its own review.
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    labels:
+      - "dependencies"
+      - "npm"
+    groups:
+      npm-minor-and-patch:
+        update-types:
+          - "minor"
+          - "patch"
+
+  # Base images in the app Dockerfiles (node, nginx-unprivileged).
+  - package-ecosystem: "docker"
+    directories:
+      - "/apps/api"
+      - "/apps/worker"
+      - "/apps/web"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    labels:
+      - "dependencies"
+      - "docker"
+
+  # Service images in compose.yaml (pgvector, redis, ollama).
+  - package-ecosystem: "docker-compose"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    labels:
+      - "dependencies"
+      - "docker"
+
+  # Pinned lint/test tooling for the scripts under .claude/skills/, in
+  # requirements-dev.txt. Not the application's stack.
   - package-ecosystem: "pip"
     directory: "/"
     schedule:
@@ -24,8 +61,3 @@ updates:
     labels:
       - "dependencies"
       - "tooling"
-
-  # The init-project skill (.claude/skills/init-project/) adds one block per
-  # stack it scaffolds (e.g. "pip" for a backend/ folder, "npm" for a frontend/
-  # folder) — see
-  # https://docs.github.com/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file

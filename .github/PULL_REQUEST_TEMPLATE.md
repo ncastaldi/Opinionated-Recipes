@@ -20,9 +20,13 @@
 
 ## Checklist
 
-- [ ] Tests pass (see this repo's `TEST_COMMAND` in CLAUDE.md's `## Session Config`)
-- [ ] Lint passes (see this repo's `LINT_COMMAND`)
-- [ ] No secrets committed
+- [ ] `pnpm test` passes
+- [ ] `pnpm lint && pnpm format:check && pnpm typecheck` passes
+- [ ] `pnpm test:e2e` passes (if the UI or its build changed)
+- [ ] `docker compose build` succeeds (if a Dockerfile or `compose*.yaml` changed)
+- [ ] New settings or features have a `RECIPES_*` switch in `packages/config` and an entry in `.env.example`
+- [ ] Every recipe write still goes through the engine; a parse that isn't clean is rejected
+- [ ] No secrets, personal hostnames, or real family recipes committed
 - [ ] CLAUDE.md updated if architecture or constraints changed
 - [ ] Relevant docs updated (ADR, spec, SOP) if applicable
 

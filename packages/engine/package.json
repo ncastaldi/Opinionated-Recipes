@@ -1,0 +1,16 @@
+{
+  "name": "@opinionated-recipes/engine",
+  "version": "0.1.0",
+  "private": true,
+  "description": "The Cooklang engine: parse with the official parser, enforce the house style, serialize canonical recipes.",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "@cooklang/cooklang": "~0.18.7"
+  }
+}

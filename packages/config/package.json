@@ -1,0 +1,16 @@
+{
+  "name": "@opinionated-recipes/config",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Typed loader for RECIPES_* environment variables and feature switches.",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "zod": "^4.6.5"
+  }
+}

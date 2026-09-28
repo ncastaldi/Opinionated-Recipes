@@ -1,0 +1,17 @@
+{
+  "name": "@opinionated-recipes/worker",
+  "version": "0.1.0",
+  "private": true,
+  "description": "BullMQ worker for imports, normalization and embeddings.",
+  "type": "module",
+  "scripts": {
+    "dev": "node --env-file-if-exists=../../.env --watch src/worker.ts",
+    "start": "node src/worker.ts",
+    "typecheck": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "@opinionated-recipes/config": "workspace:*",
+    "bullmq": "^6.3.9",
+    "ioredis": "^6.0.0"
+  }
+}

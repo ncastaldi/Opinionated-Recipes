@@ -1,0 +1,23 @@
+{
+  "name": "@opinionated-recipes/db",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Drizzle schema, migrations and client for Postgres + pgvector.",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate"
+  },
+  "dependencies": {
+    "drizzle-orm": "^0.45.3",
+    "postgres": "^3.4.9"
+  },
+  "devDependencies": {
+    "@opinionated-recipes/config": "workspace:*",
+    "drizzle-kit": "^0.31.11"
+  }
+}

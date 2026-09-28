@@ -1,0 +1,12 @@
+packages:
+  - apps/*
+  - packages/*
+
+# pnpm blocks dependency install scripts unless listed here.
+allowBuilds:
+  # drizzle-kit bundles schema files with esbuild; its install step fetches the
+  # platform binary.
+  esbuild: true
+  # Optional native speed-up for BullMQ's msgpackr. The pure-JS fallback is
+  # fine at this scale and keeps native compilation out of the Docker images.
+  msgpackr-extract: false

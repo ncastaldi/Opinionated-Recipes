@@ -36,4 +36,15 @@ Every ADR file in this folder gets a row here — this table, plus `CLAUDE.md`'s
 
 | ADR | Title | Status |
 |-----|-------|--------|
-| _none yet_ | — | — |
+| [ADR-001](ADR-001-cooklang-house-style.md) | Cooklang as the canonical format, with an opinionated house-style layer | Accepted |
+| [ADR-002](ADR-002-postgres-source-of-truth.md) | Postgres is the source of truth for canonical recipe text | Accepted |
+| [ADR-003](ADR-003-typescript-node24-monorepo.md) | TypeScript on Node 24 LTS, in a pnpm workspaces monorepo | Accepted |
+| [ADR-004](ADR-004-fastify-drizzle.md) | Fastify for the API, Drizzle for data access | Accepted |
+| [ADR-005](ADR-005-react-vite-spa.md) | A React + Vite SPA as a separate service | Accepted |
+| [ADR-006](ADR-006-docker-compose-traefik.md) | Docker Compose deployment, with an optional Traefik overlay | Accepted |
+| [ADR-007](ADR-007-env-var-feature-switches.md) | Every feature behind a `RECIPES_`-prefixed env-var switch; Flipt deferred | Accepted |
+| [ADR-008](ADR-008-oidc-with-password-fallback.md) | OIDC authentication, with a preset-password fallback that switches itself off | Accepted |
+| [ADR-009](ADR-009-redis-bullmq-jobs.md) | Redis + BullMQ for background jobs, in a separate worker service | Accepted |
+| [ADR-010](ADR-010-pgvector-ollama-embeddings.md) | Semantic search and RAG with pgvector and local Ollama embeddings, behind a switch | Accepted |
+| [ADR-011](ADR-011-claude-chat-and-data-egress.md) | Claude-powered chat, and the rule for when recipe content may leave the host | Accepted |
+| [ADR-012](ADR-012-test-and-lint-tooling.md) | Vitest, Playwright, type-aware ESLint, Prettier and `tsc` | Accepted |

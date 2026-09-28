@@ -1,0 +1,30 @@
+{
+  // Shared compiler settings. Every package extends this and adds only what
+  // its runtime needs (Node types for services, DOM + JSX for the SPA).
+  //
+  // Node packages run as TypeScript directly: Node 24 strips types natively,
+  // so there is no build step for api, worker, or the shared packages. That
+  // is why erasableSyntaxOnly is on (no enums, namespaces, or parameter
+  // properties — syntax that cannot be stripped) and why relative imports
+  // carry an explicit .ts extension.
+  "compilerOptions": {
+    "target": "es2024",
+    "lib": ["es2024"],
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    "moduleDetection": "force",
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "noImplicitOverride": true,
+    "noFallthroughCasesInSwitch": true,
+    "verbatimModuleSyntax": true,
+    "erasableSyntaxOnly": true,
+    "allowImportingTsExtensions": true,
+    "isolatedModules": true,
+    "resolveJsonModule": true,
+    "noEmit": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "types": []
+  }
+}

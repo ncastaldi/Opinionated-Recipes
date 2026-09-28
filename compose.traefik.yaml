@@ -1,0 +1,31 @@
+# Overlay for running behind an existing Traefik (v3) instead of publishing a
+# host port. Every value is a generic default overridable from .env:
+#
+#   RECIPES_DOMAIN               recipes.localhost
+#   RECIPES_TRAEFIK_NETWORK      traefik     (external network Traefik watches)
+#   RECIPES_TRAEFIK_ENTRYPOINT   websecure
+#
+# Certificates: TLS is on, using Traefik's default certificate store. To use an
+# ACME resolver, add a `traefik.http.routers.opinionated-recipes.tls.certresolver`
+# label in compose.override.yaml.
+#
+#   docker compose -f compose.yaml -f compose.traefik.yaml up -d --build
+
+services:
+  web:
+    ports: !reset []
+    networks:
+      - default
+      - traefik
+    labels:
+      traefik.enable: "true"
+      traefik.docker.network: ${RECIPES_TRAEFIK_NETWORK:-traefik}
+      traefik.http.routers.opinionated-recipes.rule: Host(`${RECIPES_DOMAIN:-recipes.localhost}`)
+      traefik.http.routers.opinionated-recipes.entrypoints: ${RECIPES_TRAEFIK_ENTRYPOINT:-websecure}
+      traefik.http.routers.opinionated-recipes.tls: "true"
+      traefik.http.services.opinionated-recipes.loadbalancer.server.port: "8080"
+
+networks:
+  traefik:
+    external: true
+    name: ${RECIPES_TRAEFIK_NETWORK:-traefik}

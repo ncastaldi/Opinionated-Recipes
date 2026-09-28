@@ -1,6 +1,8 @@
 # Contributing
 
-Thanks for your interest in contributing to this template. This document covers the expected workflow.
+Thanks for your interest in Opinionated Recipes. This document covers the expected workflow.
+
+Read [`CLAUDE.md`](CLAUDE.md) first, especially its **Constraints**. They're non-negotiable, and most review feedback traces back to one of them.
 
 ## Workflow
 
@@ -19,29 +21,50 @@ test/short-description
 experiment/short-description
 ```
 
-Branch names are snake_case. Keep them short and descriptive.
+Keep branch names short and descriptive.
 
 ### 2. Make your changes
 
-Work atomically — one logical change per commit. Run `/commit-msg` or follow Conventional Commits format directly:
+Work atomically, one logical change per commit. Run `/commit-msg` or follow the Conventional Commits format directly:
 
 ```
-feat(scope): add sync-template prompt
-fix(ci): correct ruff check command
-docs(readme): update quick start steps
-refactor(db): simplify migrations readme
+feat(engine): enforce one action per step
+fix(api): reject recipes whose parse is not clean
+docs(adr): record the embedding model choice
+chore(deps): bump fastify
 ```
 
-Conventional Commits format is **expected**, not optional.
+Conventional Commits format is **expected**, not optional. Scopes are usually a folder name: `engine`, `config`, `db`, `api`, `worker`, `web`, `e2e`, `ci`, `docs`.
 
-### 3. Open a PR
+Every test follows the repo's testing standard (`.claude/skills/testing-standards/`): a test must be able to fail when the code is wrong, and it should assert what the code produces, not how.
 
-CI must be green. The template ships no app code, but it does ship the scripts its skills depend on, and [`.github/workflows/skills-ci.yml`](.github/workflows/skills-ci.yml) lints and tests them. Run the same checks locally before pushing:
+### 3. Check locally, then open a PR
+
+Run the same checks CI runs:
 
 ```bash
-python3 -m pip install -r requirements-dev.txt   # pinned — same versions CI uses
-bash scripts/validate_skills.sh                  # skill layout and frontmatter
-bash scripts/check_doc_claims.sh                 # docs vs. what the repo contains
+pnpm install --frozen-lockfile
+pnpm lint
+pnpm format:check
+pnpm typecheck
+pnpm test
+pnpm build
+pnpm test:e2e          # first run: pnpm exec playwright install chromium
+```
+
+If you changed a Dockerfile or `compose*.yaml`, build the images too:
+
+```bash
+docker compose build
+```
+
+If you changed anything under `.claude/skills/` or `scripts/`, run the tooling checks that `skills-ci.yml` runs:
+
+```bash
+python3 -m pip install -r requirements-dev.txt   # pinned, same versions CI uses
+bash scripts/validate_skills.sh
+bash scripts/check_doc_claims.sh
+bash scripts/check_scaffolded_project.sh
 bash scripts/test_check_doc_claims.sh
 bash scripts/test_check_scaffolded_project.sh
 bash scripts/test_check_roadmap.sh
@@ -52,16 +75,12 @@ ruff check .claude/skills
 python3 -m pytest .claude/skills -q
 ```
 
-If you changed anything a scaffolded project inherits — a doc, a workflow, a prompt Config block — run the scaffold smoke test too. It is the only check that exercises scaffolding end to end, and it catches template-only content leaking into files that travel downstream:
+**CI must be green to merge.** Two workflows gate a PR:
 
-```bash
-bash scripts/simulate_init.sh python-cli /tmp/scaffold-check
-bash scripts/check_scaffolded_project.sh /tmp/scaffold-check
-```
+- [`.github/workflows/ci.yml`](.github/workflows/ci.yml): lint, format, typecheck, unit tests and build; the Playwright suite; compose validation; and a build of all three container images.
+- [`.github/workflows/skills-ci.yml`](.github/workflows/skills-ci.yml): shell and Python lint and tests for the Claude Code tooling.
 
-Install from `requirements-dev.txt` rather than a bare `pip install ruff`. The pins there are what CI enforces, and a newer ruff enables rules CI does not — that difference is a green local run and a red PR.
-
-No other minimum bar — this is a solo-maintained template repo. Fill in the PR template.
+Fill in the PR template.
 
 ### 4. Merge
 
@@ -69,18 +88,24 @@ Squash or merge commit, your call.
 
 ---
 
-## Keeping the template in sync
+## Keeping docs in sync
 
-When you change the folder structure, add a command or skill, or update a tooling default — run `/sync-template` to check for drift between the structure and its documentation. Your future self will thank you.
+When you change the folder structure, add a command or skill, or change tooling, run `/sync-template` to check for drift between the structure and its documentation. After a working session, `/docs-updater` brings the READMEs and `CLAUDE.md` up to date with what changed.
+
+Architecture decisions get an ADR in `docs/ADRs/`, plus a row in its index and a link in `CLAUDE.md`'s Decision log.
 
 ## What's in scope
 
-- Improvements to the folder structure or READMEs
-- New or improved commands in `.claude/commands/` and skills in `.claude/skills/` — see [`.claude/README.md`](.claude/README.md) for which of the two a workflow belongs in, and what earns a slot at all
-- CI, dependabot, or tooling updates
-- Bug fixes in any template file
+- Application code in `apps/` and `packages/`, with tests
+- House-style rules: a change to `docs/specs/spec-house-style.md` and the engine's tests, in the same PR
+- Docs, ADRs, specs and SOPs
+- CI, Dependabot, container and tooling updates
+- New or improved commands in `.claude/commands/` and skills in `.claude/skills/`. See [`.claude/README.md`](.claude/README.md) for which of the two a workflow belongs in
 
 ## What's out of scope
 
-- Application code or a hardcoded stack (this is a stack-agnostic template — stack choice happens per-project via the `init-project` skill, not in the template itself)
-- Skills tied to one person's infrastructure or non-engineering workflows — every cloned project inherits `.claude/skills/`, so a homelab or personal skill becomes dead weight in repos that have nothing to do with it
+- Anything that breaks a constraint in `CLAUDE.md`. In particular:
+  - a write path that stores a recipe without running it through the engine
+  - a feature with no `RECIPES_FEATURE_*` switch
+  - recipe content sent off the host without an explicit user action
+- Personal infrastructure in the repo: real domains, hostnames, IPs, credentials, or family recipes. Defaults are generic, and anything specific goes in `.env` or `compose.override.yaml`
