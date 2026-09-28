@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1
 # Build from the repo root: docker build -f apps/web/Dockerfile .
 
-FROM node:24-slim AS build
+FROM node:26-slim AS build
 ENV COREPACK_ENABLE_DOWNLOAD_PROMPT=0
 RUN corepack enable
 WORKDIR /app
