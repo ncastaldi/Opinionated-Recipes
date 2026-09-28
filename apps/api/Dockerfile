@@ -4,7 +4,7 @@
 # No compile step: Node 24 runs the TypeScript source directly. The image is
 # the workspace's production dependencies plus source.
 
-FROM node:24-slim AS deps
+FROM node:26-slim AS deps
 ENV COREPACK_ENABLE_DOWNLOAD_PROMPT=0
 RUN corepack enable
 WORKDIR /app
@@ -21,7 +21,7 @@ RUN --mount=type=cache,id=pnpm-store,target=/pnpm/store \
     pnpm install --offline --prod --frozen-lockfile --store-dir /pnpm/store \
       --filter "@opinionated-recipes/api..."
 
-FROM node:24-slim
+FROM node:26-slim
 WORKDIR /app
 COPY --from=deps /app /app
 ENV NODE_ENV=production
