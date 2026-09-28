@@ -12,13 +12,14 @@ Dev-time utilities that support development but are not part of the shipped prod
 
 ## What does not belong here
 
-- Application code (that goes in backend/)
-- Test files (those go in tests/)
+- Application code (services go in `apps/`, shared libraries in `packages/`)
+- Test files (unit tests sit beside the code they test as `*.test.ts`; Playwright specs go in `e2e/`)
 - CI/CD pipeline definitions (those go in .github/workflows/)
+- Database migrations (Drizzle generates those into `packages/db/migrations/`)
 
 ## What is already here
 
-These ship with the repo and are run by CI. Each has a header block explaining its checks, output format, and exit codes.
+These check the repo's documentation and Claude Code tooling, and `skills-ci.yml` runs them. Each has a header block explaining its checks, output format, and exit codes.
 
 | Script | Checks |
 |---|---|
@@ -26,7 +27,6 @@ These ship with the repo and are run by CI. Each has a header block explaining i
 | `check_doc_claims.sh` | Claims the root docs make — ecosystems, manifest filenames, script paths — resolve against what the repo actually contains |
 | `check_scaffolded_project.sh` | A repo satisfies every post-condition `init-project` promises: no placeholders, `docs/foundation.md` present, ADRs indexed and linked, no template-only file left behind |
 | `check_roadmap.sh` | A roadmap's checklist items: inventories each with its line and section, and flags items with no `source:`, a cited path that is gone, an unticked item whose deliverable already exists, or a ticked one whose deliverable does not. Run by `/roadmap` |
-| `simulate_init.sh` | Not a check — builds an as-if-initialized fixture so CI can verify scaffolding end to end |
 
 Each has a `test_*.sh` beside it. Run the tests before changing one; several of these checks look like they pass when they are silently doing nothing.
 

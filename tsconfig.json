@@ -1,0 +1,10 @@
+{
+  // Root-level TypeScript: the Playwright specs and the tool configs that live
+  // at the repo root. Each app and package has its own tsconfig.json and is
+  // typechecked by its own `typecheck` script.
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "types": ["node"]
+  },
+  "include": ["e2e", "vitest.config.ts", "playwright.config.ts"]
+}

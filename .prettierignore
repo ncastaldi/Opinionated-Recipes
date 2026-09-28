@@ -1,0 +1,14 @@
+pnpm-lock.yaml
+**/dist/
+coverage/
+playwright-report/
+test-results/
+
+# Markdown is prose, reviewed by humans — Prettier re-wrapping tables and lists
+# in docs creates diff noise without catching anything.
+*.md
+
+# Synced from the upstream project template by /sync-from-template. Reformatting
+# them here would show up as drift on every sync.
+.claude/
+.github/workflows/skills-ci.yml

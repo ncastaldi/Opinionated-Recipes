@@ -1,0 +1,18 @@
+# Build context is the repo root (the Dockerfiles need the pnpm workspace).
+# Keep it to what an image can actually use.
+**/node_modules
+**/dist
+.git
+.github
+.claude
+docs
+e2e
+scripts
+coverage
+playwright-report
+test-results
+**/*.md
+.env
+.env.*
+!.env.example
+compose*.yaml
