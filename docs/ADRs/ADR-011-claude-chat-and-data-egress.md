@@ -1,6 +1,6 @@
 # ADR-011: Claude-powered chat, and the rule for when recipe content may leave the host
 
-**Status:** Accepted
+**Status:** Superseded by [ADR-013](ADR-013-ai-first-authoring.md) (2026-09-29). The data-egress rule, server-side chat and the share seam carry forward there unchanged; the offline constraint and chat's place outside the MVP do not.
 **Date:** 2026-09-28
 
 ## Context
