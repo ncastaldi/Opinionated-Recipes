@@ -46,5 +46,6 @@ Every ADR file in this folder gets a row here — this table, plus `CLAUDE.md`'s
 | [ADR-008](ADR-008-oidc-with-password-fallback.md) | OIDC authentication, with a preset-password fallback that switches itself off | Accepted |
 | [ADR-009](ADR-009-redis-bullmq-jobs.md) | Redis + BullMQ for background jobs, in a separate worker service | Accepted |
 | [ADR-010](ADR-010-pgvector-ollama-embeddings.md) | Semantic search and RAG with pgvector and local Ollama embeddings, behind a switch | Accepted |
-| [ADR-011](ADR-011-claude-chat-and-data-egress.md) | Claude-powered chat, and the rule for when recipe content may leave the host | Accepted |
+| [ADR-011](ADR-011-claude-chat-and-data-egress.md) | Claude-powered chat, and the rule for when recipe content may leave the host | Superseded by ADR-013 |
 | [ADR-012](ADR-012-test-and-lint-tooling.md) | Vitest, Playwright, type-aware ESLint, Prettier and `tsc` | Accepted |
+| [ADR-013](ADR-013-ai-first-authoring.md) | AI-first authoring through chat; the core no longer has to run offline | Accepted |
