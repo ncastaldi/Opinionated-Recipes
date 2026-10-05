@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@opinionated-recipes/config": "workspace:*",
-    "bullmq": "^6.3.9",
+    "bullmq": "^6.3.11",
     "ioredis": "^6.0.0"
   }
 }
