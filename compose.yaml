@@ -98,7 +98,7 @@ services:
       retries: 10
 
   ollama:
-    image: ollama/ollama:0.34.4
+    image: ollama/ollama:0.40.2
     profiles: [ollama]
     restart: unless-stopped
     volumes:
